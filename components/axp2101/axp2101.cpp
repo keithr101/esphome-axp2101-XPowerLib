@@ -1,5 +1,6 @@
 #include "axp2101.h"
 #include "esp_sleep.h"
+#include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
 
 #ifdef ARDUINO
