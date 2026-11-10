@@ -40,7 +40,7 @@ WSESP32S3TCHLCD_3_5_B_SCHEMA = sensor.sensor_schema().extend({
 CONF_BATTERY_CHARGING = "battery_charging"
 
 CONFIG_SCHEMA = (
-    cv.schema(
+    cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(AXP2101Component),
             cv.Required(CONF_MODEL): AXP2101_MODEL,
