@@ -382,14 +382,14 @@ void AXP2101Component::update() {
     }
 }
 
-void AXP2101Interrupt::gpio_intr(AXP2101Interrupt *pIsrData) {
+void AXP2101Component::AXP2101Interrupt::gpio_intr(AXP2101Interrupt *pIsrData) {
     //TODO Read from the IO Expender to see if its our Interrupt. for now do nothing
     pIsrData->reason = 0xFF;
 }
 
 void AXP2101Component::attach_interrupt_(InternalGPIOPin *irq_pin, esphome::gpio::InterruptType type) {
   irq_pin->attach_interrupt(AXP2101Interrupt::gpio_intr, &this->isrData, type);
-  ESP_LOGD(TAG, "Attached AXP2101 Interupt");
+  ESP_LOGD(TAG, "Attached AXP2101 Interrupt");
 }
 
 void AXP2101Component::Write1Byte( uint8_t Addr ,  uint8_t Data )
