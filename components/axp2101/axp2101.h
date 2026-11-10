@@ -39,8 +39,8 @@ public:
   void set_brightness(float brightness) { brightness_ = brightness; }
   void set_model(AXP2101Model model) { this->model_ = model; }
 
-  void set_interrupt_pin(InternalGPIOPin *pin) { this->interrupt_pin_ = pin; }
-  void set_reset_pin(GPIOPin *pin) { this->reset_pin_ = pin; }
+  void set_interrupt_pin(InternalGPIOPin *pin) { this->interrupt_pin = pin; }
+  void set_reset_pin(GPIOPin *pin) { this->reset_pin = pin; }
   // ========== INTERNAL METHODS ==========
   // (In most use cases you won't need these)
   void setup() override;
