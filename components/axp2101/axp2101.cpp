@@ -284,8 +284,8 @@ void AXP2101Component::setup()
         this->interrupt_pin->setup();
         this->attach_interrupt_(this->interrupt_pin, gpio::INTERRUPT_FALLING_EDGE);
     }
-    if (this->reset_pin_ != nullptr) {
-        pulse_reset(this->reset_pin_, {.low_ms = 5, .high_after_ms = 10});
+    if (this->reset_pin != nullptr) {
+        pulse_reset(this->reset_pin, {.low_ms = 5, .high_after_ms = 10});
     }
 #endif
 
