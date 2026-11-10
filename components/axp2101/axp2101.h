@@ -10,7 +10,7 @@
 #define XPOWERS_CHIP_AXP2101
 #include "XPowersLib.h"
 
-ESPHOME_ALWAYS_INLINE void pulse_reset(GPIOPin *pin, ResetPulse pulse)
+ESPHOME_ALWAYS_INLINE void pulse_reset(GPIOPin *pin, ResetPulse pulse);
 
 
 namespace esphome {
