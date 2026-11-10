@@ -1,7 +1,10 @@
 #include "axp2101.h"
 #include "esp_sleep.h"
 #include "esphome/core/log.h"
-//#include <Esp.h>
+
+#ifdef ARDUINO
+
+#include <Esp.h>
 
 #ifndef CONFIG_PMU_SDA
 #define CONFIG_PMU_SDA 21
@@ -16,8 +19,6 @@
 #endif
 
 bool  pmu_flag = 0;
-XPowersPMU PMU;
-
 const uint8_t i2c_sda = CONFIG_PMU_SDA;
 const uint8_t i2c_scl = CONFIG_PMU_SCL;
 const uint8_t pmu_irq_pin = CONFIG_PMU_IRQ;
@@ -26,6 +27,10 @@ void setFlag(void)
 {
     pmu_flag = true;
 }
+#endif //defined(ARDUINO)
+
+XPowersPMU PMU;
+
 
 namespace esphome {
 namespace axp2101 {
@@ -269,10 +274,20 @@ void AXP2101Component::setup()
     PMU.setChargingLedMode(XPOWERS_CHG_LED_OFF);
 
 
+#ifdef ARDUINO
     // Force add pull-up
     pinMode(pmu_irq_pin, INPUT_PULLUP);
     attachInterrupt(pmu_irq_pin, setFlag, FALLING);
-
+#else //ESP-IDF framework
+    if (this->interrupt_pin_ != nullptr) {
+        this->interrupt_pin_->pin_mode(gpio::FLAG_INPUT);
+        this->interrupt_pin_->setup();
+        this->attach_interrupt_(this->interrupt_pin_, gpio::INTERRUPT_FALLING_EDGE);
+    }
+    if (this->reset_pin_ != nullptr) {
+        pulse_reset(this->reset_pin_, {.low_ms = 5, .high_after_ms = 10});
+    }
+#endif
 
     // Disable all interrupts
     PMU.disableIRQ(XPOWERS_AXP2101_ALL_IRQ);
@@ -458,6 +473,9 @@ void AXP2101Component::UpdateBrightness()
         Write1Byte( 0x27 , ((buf & 0x80) | (ubri << 3)) );
         break;
       }
+      case AXP2101_WSESP32S3TCHLCD_3_5_B:
+        //Do nothing for WaveShare this shouldn't be ever called
+        break;
     }
 }
 

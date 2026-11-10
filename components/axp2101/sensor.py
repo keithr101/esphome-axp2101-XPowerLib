@@ -7,6 +7,8 @@ from esphome.const import (
     CONF_BRIGHTNESS,
     CONF_ID,
     CONF_MODEL,
+    CONF_INTERRUPT_PIN,
+    CONF_RESET_PIN,
     DEVICE_CLASS_BATTERY_CHARGING,
     DEVICE_CLASS_VOLTAGE,
     ENTITY_CATEGORY_DIAGNOSTIC,
@@ -58,6 +60,8 @@ CONFIG_SCHEMA = (
                 device_class=DEVICE_CLASS_BATTERY_CHARGING,
             ),
             cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
+            cv.Optional(CONF_INTERRUPT_PIN): pins.internal_gpio_input_pin_schema,
+            cv.Optional(CONF_RESET_PIN): pins.gpio_output_pin_schema,
         }
     )
     .extend(cv.polling_component_schema("60s"))
@@ -92,3 +96,9 @@ def to_code(config):
     if CONF_BRIGHTNESS in config:
         conf = config[CONF_BRIGHTNESS]
         cg.add(var.set_brightness(conf))
+
+    if CONF_INTERRUPT_PIN in config:
+        await cg.add_pin(var.set_interrupt_pin, config.get(CONF_INTERRUPT_PIN))
+
+    if CONF_RESET_PIN in config:
+        await cg.add_pin(var.set_reset_pin, config.get(CONF_RESET_PIN))

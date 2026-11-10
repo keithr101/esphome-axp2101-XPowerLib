@@ -39,6 +39,8 @@ public:
   void set_brightness(float brightness) { brightness_ = brightness; }
   void set_model(AXP2101Model model) { this->model_ = model; }
 
+  void set_interrupt_pin(InternalGPIOPin *pin) { this->interrupt_pin_ = pin; }
+  void set_reset_pin(GPIOPin *pin) { this->reset_pin_ = pin; }
   // ========== INTERNAL METHODS ==========
   // (In most use cases you won't need these)
   void setup() override;
@@ -56,6 +58,8 @@ protected:
     float brightness_{1.0f};
     float curr_brightness_{-1.0f};
     AXP2101Model model_;
+    InternalGPIOPin *interrupt_pin;
+    GPIOPin *reset_pin;
 
     /** M5Stack Core2 Values
      * LDO2: ILI9342C PWR (Display)
