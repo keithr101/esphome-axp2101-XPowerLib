@@ -39,12 +39,8 @@ WSESP32S3TCHLCD_3_5_B_SCHEMA = sensor.sensor_schema().extend({
 
 CONF_BATTERY_CHARGING = "battery_charging"
 
-CONFIG_SCHEMA = cv.typed_schema(({
-        MODEL_M5CORE2_SCHEMA,
-        WSESP32S3TCHLCD_3_5_B_SCHEMA,
-    },
-    key=CONF_MODEL,
-    base=cv.Schema(
+CONFIG_SCHEMA = (
+    cv.schema(
         {
             cv.GenerateID(): cv.declare_id(AXP2101Component),
             cv.Required(CONF_MODEL): AXP2101_MODEL,
@@ -61,11 +57,11 @@ CONFIG_SCHEMA = cv.typed_schema(({
             cv.Optional(CONF_BATTERY_CHARGING): binary_sensor.binary_sensor_schema(
                 device_class=DEVICE_CLASS_BATTERY_CHARGING,
             ),
+            cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
         }
     )
     .extend(cv.polling_component_schema("60s"))
     .extend(i2c.i2c_device_schema(0x77))
-    ),
 )
 
 
