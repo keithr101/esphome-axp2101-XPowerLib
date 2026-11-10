@@ -279,10 +279,10 @@ void AXP2101Component::setup()
     pinMode(pmu_irq_pin, INPUT_PULLUP);
     attachInterrupt(pmu_irq_pin, setFlag, FALLING);
 #else //ESP-IDF framework
-    if (this->interrupt_pin_ != nullptr) {
-        this->interrupt_pin_->pin_mode(gpio::FLAG_INPUT);
-        this->interrupt_pin_->setup();
-        this->attach_interrupt_(this->interrupt_pin_, gpio::INTERRUPT_FALLING_EDGE);
+    if (this->interrupt_pin != nullptr) {
+        this->interrupt_pin->pin_mode(gpio::FLAG_INPUT);
+        this->interrupt_pin->setup();
+        this->attach_interrupt_(this->interrupt_pin, gpio::INTERRUPT_FALLING_EDGE);
     }
     if (this->reset_pin_ != nullptr) {
         pulse_reset(this->reset_pin_, {.low_ms = 5, .high_after_ms = 10});
