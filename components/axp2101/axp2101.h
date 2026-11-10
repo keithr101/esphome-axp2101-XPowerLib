@@ -66,7 +66,7 @@ protected:
      * LDO2: ILI9342C PWR (Display)
      * LD03: Vibration Motor
      */
-
+    void  attach_interrupt_(InternalGPIOPin *irq_pin, esphome::gpio::InterruptType type);
     void  UpdateBrightness();
     bool  GetBatState();
     uint8_t  GetBatData();
