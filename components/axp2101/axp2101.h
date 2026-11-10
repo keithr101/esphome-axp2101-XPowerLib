@@ -6,12 +6,10 @@
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/core/component.h"
 #include "esphome/core/hal.h"
+#include "esphome/core/helpers.h"
 
 #define XPOWERS_CHIP_AXP2101
 #include "XPowersLib.h"
-
-ESPHOME_ALWAYS_INLINE void pulse_reset(GPIOPin *pin, ResetPulse pulse);
-
 
 namespace esphome {
 namespace axp2101 {
