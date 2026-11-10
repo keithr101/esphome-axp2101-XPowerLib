@@ -2,7 +2,6 @@
 #include "esp_sleep.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
-#include "esphome/core/gpio_pin.h"
 
 #ifdef ARDUINO
 
@@ -287,7 +286,12 @@ void AXP2101Component::setup()
         this->attach_interrupt_(this->interrupt_pin, gpio::INTERRUPT_FALLING_EDGE);
     }
     if (this->reset_pin != nullptr) {
-        pulse_reset(this->reset_pin, {.low_ms = 5, .high_after_ms = 10});
+        //pulse_reset(this->reset_pin, {.low_ms = 5, .high_after_ms = 10});
+        pulse_reset(this->reset_pin_, {
+            .high_before_ms = 1, // Holds high before dropping low
+            .low_ms = 10,        // Holds low (putting device in reset)
+            .high_after_ms = 5   // Drives high and blocks for setup time
+        });
     }
 #endif
 
