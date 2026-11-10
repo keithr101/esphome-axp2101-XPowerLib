@@ -44,7 +44,6 @@ void AXP2101Component::setup()
     // higher than this value will turn off the PMU
     PMU.setVbusCurrentLimit(XPOWERS_AXP2101_VBUS_CUR_LIM_1500MA);
 
-
     // Get the VSYS shutdown voltage
     uint16_t vol = PMU.getSysPowerDownVoltage();
     ESP_LOGCONFIG(TAG, "->  getSysPowerDownVoltage:%u", vol);
@@ -55,89 +54,114 @@ void AXP2101Component::setup()
     vol = PMU.getSysPowerDownVoltage();
     ESP_LOGCONFIG(TAG, "->  getSysPowerDownVoltage:%u", vol);
 
+    if (this->model_ == AXP2101_M5CORE2) {
+        // DC1 IMAX=2A
+        // 1500~3400mV,100mV/step,20steps
+        PMU.setDC1Voltage(3300);
+        ESP_LOGCONFIG(TAG, "DC1  : %s   Voltage:%u mV",  PMU.isEnableDC1()  ? "+" : "-", PMU.getDC1Voltage());
 
-    // DC1 IMAX=2A
-    // 1500~3400mV,100mV/step,20steps
-    PMU.setDC1Voltage(3300);
-    ESP_LOGCONFIG(TAG, "DC1  : %s   Voltage:%u mV",  PMU.isEnableDC1()  ? "+" : "-", PMU.getDC1Voltage());
+        // DC2 IMAX=2A
+        // 500~1200mV  10mV/step,71steps
+        // 1220~1540mV 20mV/step,17steps
+        PMU.setDC2Voltage(1000);
+        ESP_LOGCONFIG(TAG, "DC2  : %s   Voltage:%u mV",  PMU.isEnableDC2()  ? "+" : "-", PMU.getDC2Voltage());
 
-    // DC2 IMAX=2A
-    // 500~1200mV  10mV/step,71steps
-    // 1220~1540mV 20mV/step,17steps
-    PMU.setDC2Voltage(1000);
-    ESP_LOGCONFIG(TAG, "DC2  : %s   Voltage:%u mV",  PMU.isEnableDC2()  ? "+" : "-", PMU.getDC2Voltage());
+        // DC3 IMAX = 2A
+        // 500~1200mV,10mV/step,71steps
+        // 1220~1540mV,20mV/step,17steps
+        // 1600~3400mV,100mV/step,19steps
+        PMU.setDC3Voltage(3300);
+        ESP_LOGCONFIG(TAG, "DC3  : %s   Voltage:%u mV",  PMU.isEnableDC3()  ? "+" : "-", PMU.getDC3Voltage());
 
-    // DC3 IMAX = 2A
-    // 500~1200mV,10mV/step,71steps
-    // 1220~1540mV,20mV/step,17steps
-    // 1600~3400mV,100mV/step,19steps
-    PMU.setDC3Voltage(3300);
-    ESP_LOGCONFIG(TAG, "DC3  : %s   Voltage:%u mV",  PMU.isEnableDC3()  ? "+" : "-", PMU.getDC3Voltage());
+        // DCDC4 IMAX=1.5A
+        // 500~1200mV,10mV/step,71steps
+        // 1220~1840mV,20mV/step,32steps
+        PMU.setDC4Voltage(1000);
+        ESP_LOGCONFIG(TAG, "DC4  : %s   Voltage:%u mV",  PMU.isEnableDC4()  ? "+" : "-", PMU.getDC4Voltage());
 
-    // DCDC4 IMAX=1.5A
-    // 500~1200mV,10mV/step,71steps
-    // 1220~1840mV,20mV/step,32steps
-    PMU.setDC4Voltage(1000);
-    ESP_LOGCONFIG(TAG, "DC4  : %s   Voltage:%u mV",  PMU.isEnableDC4()  ? "+" : "-", PMU.getDC4Voltage());
+        // DC5 IMAX=2A
+        // 1200mV
+        // 1400~3700mV,100mV/step,24steps
+        PMU.setDC5Voltage(3300);
+        ESP_LOGCONFIG(TAG, "DC5  : %s   Voltage:%u mV",  PMU.isEnableDC5()  ? "+" : "-", PMU.getDC5Voltage());
 
-    // DC5 IMAX=2A
-    // 1200mV
-    // 1400~3700mV,100mV/step,24steps
-    PMU.setDC5Voltage(3300);
-    ESP_LOGCONFIG(TAG, "DC5  : %s   Voltage:%u mV",  PMU.isEnableDC5()  ? "+" : "-", PMU.getDC5Voltage());
+        //ALDO1 IMAX=300mA
+        //500~3500mV, 100mV/step,31steps
+        PMU.setALDO1Voltage(3300);
 
-    //ALDO1 IMAX=300mA
-    //500~3500mV, 100mV/step,31steps
-    PMU.setALDO1Voltage(3300);
+        //ALDO2 IMAX=300mA
+        //500~3500mV, 100mV/step,31steps
+        PMU.setALDO2Voltage(3300);
 
-    //ALDO2 IMAX=300mA
-    //500~3500mV, 100mV/step,31steps
-    PMU.setALDO2Voltage(3300);
+        //ALDO3 IMAX=300mA
+        //500~3500mV, 100mV/step,31steps
+        // PMU.setALDO3Voltage(3300);
 
-    //ALDO3 IMAX=300mA
-    //500~3500mV, 100mV/step,31steps
-    // PMU.setALDO3Voltage(3300);
+        //ALDO4 IMAX=300mA
+        //500~3500mV, 100mV/step,31steps
+        PMU.setALDO4Voltage(3300);
 
-    //ALDO4 IMAX=300mA
-    //500~3500mV, 100mV/step,31steps
-    PMU.setALDO4Voltage(3300);
+        //BLDO1 IMAX=300mA
+        //500~3500mV, 100mV/step,31steps
+        PMU.setBLDO1Voltage(3300);
 
-    //BLDO1 IMAX=300mA
-    //500~3500mV, 100mV/step,31steps
-    PMU.setBLDO1Voltage(3300);
+        //BLDO2 IMAX=300mA
+        //500~3500mV, 100mV/step,31steps
+        PMU.setBLDO2Voltage(3300);
 
-    //BLDO2 IMAX=300mA
-    //500~3500mV, 100mV/step,31steps
-    PMU.setBLDO2Voltage(3300);
+        //CPUSLDO IMAX=30mA
+        //500~1400mV,50mV/step,19steps
+        PMU.setCPUSLDOVoltage(1000);
 
-    //CPUSLDO IMAX=30mA
-    //500~1400mV,50mV/step,19steps
-    PMU.setCPUSLDOVoltage(1000);
+        //DLDO1 IMAX=300mA
+        //500~3400mV, 100mV/step,29steps
+        // PMU.setDLDO1Voltage(3300);
 
-    //DLDO1 IMAX=300mA
-    //500~3400mV, 100mV/step,29steps
-    // PMU.setDLDO1Voltage(3300);
-
-    //DLDO2 IMAX=300mA
-    //500~1400mV, 50mV/step,2steps
-    // PMU.setDLDO2Voltage(3300);
+        //DLDO2 IMAX=300mA
+        //500~1400mV, 50mV/step,2steps
+        // PMU.setDLDO2Voltage(3300);
 
 
-    // PMU.enableDC1();
-    PMU.enableDC2();
-    PMU.enableDC3();
-    PMU.enableDC4();
-    PMU.enableDC5();
-    PMU.enableALDO1();
-    PMU.enableALDO2();
-    // PMU.enableALDO3(); // This is the speaker
-    PMU.enableALDO4();
-    PMU.enableBLDO1();
-    PMU.enableBLDO2();
-    PMU.enableCPUSLDO();
-    // PMU.enableDLDO1(); // This is the vibration motor
-    // PMU.enableDLDO2();
+        // PMU.enableDC1();
+        PMU.enableDC2();
+        PMU.enableDC3();
+        PMU.enableDC4();
+        PMU.enableDC5();
+        PMU.enableALDO1();
+        PMU.enableALDO2();
+        // PMU.enableALDO3(); // This is the speaker
+        PMU.enableALDO4();
+        PMU.enableBLDO1();
+        PMU.enableBLDO2();
+        PMU.enableCPUSLDO();
+        // PMU.enableDLDO1(); // This is the vibration motor
+        // PMU.enableDLDO2();
 
+    }
+    else if (this->model_ == AXP2101_WSESP32S3TCHLCD_3_5_B) {
+        // DC1 IMAX=2A
+        // 1500~3400mV,100mV/step,20steps
+        PMU.setDC1Voltage(3300);
+        ESP_LOGCONFIG(TAG, "DC1  : %s   Voltage:%u mV",  PMU.isEnableDC1()  ? "+" : "-", PMU.getDC1Voltage());
+
+
+        //ALDO1 IMAX=300mA
+        //500~3500mV, 100mV/step,31steps
+        PMU.setALDO1Voltage(3300);
+
+        //BLDO1 IMAX=300mA
+        //500~3500mV, 100mV/step,31steps
+        PMU.setBLDO1Voltage(1500);
+
+        //BLDO2 IMAX=300mA
+        //500~3500mV, 100mV/step,31steps
+        PMU.setBLDO2Voltage(2800);
+
+        PMU.enableDC1();
+        PMU.enableALDO1(); //Camera 
+        PMU.enableBLDO1(); //Camera
+        PMU.enableBLDO2(); //Camera
+    }
 
     ESP_LOGCONFIG(TAG, "DC1  : %s   Voltage:%u mV",  PMU.isEnableDC1()  ? "+" : "-", PMU.getDC1Voltage());
     ESP_LOGCONFIG(TAG, "DC2  : %s   Voltage:%u mV",  PMU.isEnableDC2()  ? "+" : "-", PMU.getDC2Voltage());
@@ -330,7 +354,9 @@ void AXP2101Component::update() {
       this->batterycharging_bsensor_->publish_state(vcharging);
     }
 
-    UpdateBrightness();
+    if (this->model_ == AXP2101_M5CORE2) {
+        UpdateBrightness();
+    }
 }
 
 void AXP2101Component::Write1Byte( uint8_t Addr ,  uint8_t Data )

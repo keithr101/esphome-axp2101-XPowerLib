@@ -2,6 +2,9 @@
 
 This custom component implements AXP2101 support for the [M5Stack Core2 V1.1](https://docs.m5stack.com/en/core/Core2%20v1.1), building on top of https://github.com/martydingo/esphome-axp192 and https://github.com/lewisxhe/XPowersLib. The [Core2 V1.1](https://docs.m5stack.com/en/core/Core2%20v1.1) uses an AXP2101 while the older Core2 uses an AXP192.
 
+Added support for the [Waveshare ESP32S3 Touch Lcd 3.5B] (https://https://www.waveshare.com/esp32-s3-touch-lcd-3.5b.htm) with docs at
+(https://docs.waveshare.com/ESP32-S3-Touch-LCD-3.5B/Resources-And-Documents)
+
 *This component does not offer full functionality yet, it only covers part of the AXP2101 features and is not fully tested.*  
 
 ## Installation
@@ -12,7 +15,7 @@ Copy the components to a custom_components directory next to your .yaml configur
 
 Sample configurations are found in the `/sample-config` folder.
 
-This component adds a new model configuration to the AXP2101 sensor which determines which registers are needed for each device. The only available model is `model: M5CORE2`.
+This component adds new model configurations to the AXP2101 sensor which determines which registers are needed for each device. The only available models are `model: M5CORE2` and `model: WSESP32S3TCHLCD_3_5_B`
 
 ### Include AXP2101 Component
 
