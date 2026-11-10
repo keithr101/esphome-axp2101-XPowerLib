@@ -63,7 +63,7 @@ protected:
     GPIOPin *reset_pin;
 
     struct AXP2101Interrupt {
-        volatile uint8_t reason{ -1 };
+        volatile uint8_t reason{ 0xFF };
         static void gpio_intr(AXP2101Interrupt *isrData);
     };
 

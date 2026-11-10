@@ -2,6 +2,7 @@
 #include "esp_sleep.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
+#include "esphome/core/gpio_pin.h"
 
 #ifdef ARDUINO
 
@@ -376,8 +377,8 @@ void AXP2101Component::update() {
 }
 
 void AXP2101Component::attach_interrupt_(InternalGPIOPin *irq_pin, esphome::gpio::InterruptType type) {
-  irq_pin->attach_interrupt(AXP2101Interrupt gpio_intr, &this->isrData, type);
-  ESP_LOGD(TAG, "Attach AXP2101 Interupt");
+  irq_pin->attach_interrupt(AXP2101Interrupt::gpio_intr, &this->isrData, type);
+  ESP_LOGD(TAG, "Attached AXP2101 Interupt");
 }
 
 void AXP2101Component::Write1Byte( uint8_t Addr ,  uint8_t Data )
