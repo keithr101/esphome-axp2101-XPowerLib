@@ -62,11 +62,20 @@ protected:
     InternalGPIOPin *interrupt_pin;
     GPIOPin *reset_pin;
 
+    struct AXP2101Interrupt {
+        volatile uint8_t reason{ -1 };
+        static void gpio_intr(AXP2101Interrupt *isrData);
+    };
+
+    void  attach_interrupt_(InternalGPIOPin *irq_pin, esphome::gpio::InterruptType type);
+
+    AXP2101Interrupt isrData;
+
     /** M5Stack Core2 Values
      * LDO2: ILI9342C PWR (Display)
      * LD03: Vibration Motor
      */
-    void  attach_interrupt_(InternalGPIOPin *irq_pin, esphome::gpio::InterruptType type);
+
     void  UpdateBrightness();
     bool  GetBatState();
     uint8_t  GetBatData();
