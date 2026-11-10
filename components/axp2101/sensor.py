@@ -98,7 +98,7 @@ def to_code(config):
         cg.add(var.set_brightness(conf))
 
     if CONF_INTERRUPT_PIN in config:
-        await cg.add_pin(var.set_interrupt_pin, config.get(CONF_INTERRUPT_PIN))
+        cg.add_pin(var.set_interrupt_pin, config.get(CONF_INTERRUPT_PIN))
 
     if CONF_RESET_PIN in config:
-        await cg.add_pin(var.set_reset_pin, config.get(CONF_RESET_PIN))
+        cg.add_pin(var.set_reset_pin, config.get(CONF_RESET_PIN))
