@@ -42,6 +42,11 @@ WSESP32S3TCHLCD_3_5_B_SCHEMA = sensor.sensor_schema().extend({
 
 CONF_BATTERY_CHARGING = "battery_charging"
 
+def _validate_brightness(config: ConfigType) -> ConfigType:
+    if value[CONF_MODEL] == "WSESP32S3TCHLCD_3_5_B" and value[CONF_BRIGHTNESS]:
+        raise cv.Invalid("brightness not supported by model WSESP32S3TCHLCD_3_5_B")
+    return config
+
 CONFIG_SCHEMA = (
     cv.Schema(
         {
@@ -62,12 +67,13 @@ CONFIG_SCHEMA = (
             ),
             cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
             #cv.Optional(CONF_INTERRUPT_PIN): pins.internal_gpio_input_pin_schema,
-            cv.Optional(CONF_INTERRUPT_PIN): pins.gpio_input_pin_schema,
-            cv.Optional(CONF_RESET_PIN): pins.gpio_output_pin_schema,
+            #cv.Optional(CONF_INTERRUPT_PIN): pins.gpio_input_pin_schema,
+            #cv.Optional(CONF_RESET_PIN): pins.gpio_output_pin_schema,
         }
     )
     .extend(cv.polling_component_schema("60s"))
-    .extend(i2c.i2c_device_schema(0x77))
+    .extend(i2c.i2c_device_schema(0x77)),
+    _validate_brightness,
 )
 
 
@@ -99,8 +105,8 @@ def to_code(config):
         conf = config[CONF_BRIGHTNESS]
         cg.add(var.set_brightness(conf))
 
-    if CONF_INTERRUPT_PIN in config:
-        cg.add_pin(var.set_interrupt_pin, config.get(CONF_INTERRUPT_PIN))
+    #if CONF_INTERRUPT_PIN in config:
+    #    cg.add_pin(var.set_interrupt_pin, config.get(CONF_INTERRUPT_PIN))
 
-    if CONF_RESET_PIN in config:
-        cg.add_pin(var.set_reset_pin, config.get(CONF_RESET_PIN))
+    #if CONF_RESET_PIN in config:
+    #    cg.add_pin(var.set_reset_pin, config.get(CONF_RESET_PIN))
