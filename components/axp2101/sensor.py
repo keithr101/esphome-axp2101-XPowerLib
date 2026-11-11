@@ -43,7 +43,7 @@ WSESP32S3TCHLCD_3_5_B_SCHEMA = sensor.sensor_schema().extend({
 CONF_BATTERY_CHARGING = "battery_charging"
 
 def _validate_brightness(config: ConfigType) -> ConfigType:
-    if value[CONF_MODEL] == "WSESP32S3TCHLCD_3_5_B" and value[CONF_BRIGHTNESS]:
+    if (value[CONF_MODEL] = "WSESP32S3TCHLCD_3_5_B") and value[CONF_BRIGHTNESS]:
         raise cv.Invalid("brightness not supported by model WSESP32S3TCHLCD_3_5_B")
     return config
 
