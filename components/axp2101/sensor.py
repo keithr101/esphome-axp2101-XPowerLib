@@ -36,8 +36,8 @@ MODEL_M5CORE2_SCHEMA = sensor.sensor_schema().extend({
     cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
 })
 
-WSESP32S3TCHLCD_3_5_B_SCHEMA = sensor.sensor_schema().extend({
-})
+#WSESP32S3TCHLCD_3_5_B_SCHEMA = sensor.sensor_schema().extend({
+#})
 
 
 CONF_BATTERY_CHARGING = "battery_charging"
