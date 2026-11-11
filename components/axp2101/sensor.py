@@ -27,7 +27,7 @@ AXP2101Model = axp2101_ns.enum("AXP2101Model")
 
 MODELS = {
     "M5CORE2": AXP2101Model.AXP2101_M5CORE2,
-    "WSESP32S3TCHLCD_3_5_B": AXP2101Model.AXP2101_WSESP32S3TCHLCD_3_5_B
+    "WSESP32S3TCHLCD_3_5_B": AXP2101Model.AXP2101_WSESP32S3TCHLCD_3_5_B,
 }
 
 AXP2101_MODEL = cv.enum(MODELS, upper=True, space="_")
@@ -66,14 +66,10 @@ CONFIG_SCHEMA = (
                 device_class=DEVICE_CLASS_BATTERY_CHARGING,
             ),
             cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
-            #cv.Optional(CONF_INTERRUPT_PIN): pins.internal_gpio_input_pin_schema,
-            #cv.Optional(CONF_INTERRUPT_PIN): pins.gpio_input_pin_schema,
-            #cv.Optional(CONF_RESET_PIN): pins.gpio_output_pin_schema,
         }
     )
     .extend(cv.polling_component_schema("60s"))
     .extend(i2c.i2c_device_schema(0x77))
-    #_validate_model,
 )
 
 
@@ -105,8 +101,3 @@ def to_code(config):
         conf = config[CONF_BRIGHTNESS]
         cg.add(var.set_brightness(conf))
 
-    #if CONF_INTERRUPT_PIN in config:
-    #    cg.add_pin(var.set_interrupt_pin, config.get(CONF_INTERRUPT_PIN))
-
-    #if CONF_RESET_PIN in config:
-    #    cg.add_pin(var.set_reset_pin, config.get(CONF_RESET_PIN))
