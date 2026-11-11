@@ -8,8 +8,8 @@ from esphome.const import (
     CONF_BRIGHTNESS,
     CONF_ID,
     CONF_MODEL,
-    CONF_INTERRUPT_PIN,
-    CONF_RESET_PIN,
+    #CONF_INTERRUPT_PIN,
+    #CONF_RESET_PIN,
     DEVICE_CLASS_BATTERY_CHARGING,
     DEVICE_CLASS_VOLTAGE,
     ENTITY_CATEGORY_DIAGNOSTIC,
@@ -32,9 +32,9 @@ MODELS = {
 
 AXP2101_MODEL = cv.enum(MODELS, upper=True, space="_")
 
-MODEL_M5CORE2_SCHEMA = sensor.sensor_schema().extend({
-    cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
-})
+#MODEL_M5CORE2_SCHEMA = sensor.sensor_schema().extend({
+#    cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
+#})
 
 #WSESP32S3TCHLCD_3_5_B_SCHEMA = sensor.sensor_schema().extend({
 #})
@@ -72,7 +72,7 @@ CONFIG_SCHEMA = (
         }
     )
     .extend(cv.polling_component_schema("60s"))
-    .extend(i2c.i2c_device_schema(0x77)),
+    .extend(i2c.i2c_device_schema(0x77))
     #_validate_model,
 )
 
