@@ -61,7 +61,7 @@ CONFIG_SCHEMA = (
                 device_class=DEVICE_CLASS_BATTERY_CHARGING,
             ),
             cv.Optional(CONF_BRIGHTNESS, default=1.0): cv.percentage,
-            **cv.Optional(CONF_INTERRUPT_PIN): pins.internal_gpio_input_pin_schema,
+            #cv.Optional(CONF_INTERRUPT_PIN): pins.internal_gpio_input_pin_schema,
             cv.Optional(CONF_INTERRUPT_PIN): pins.extend_gpio_input_pin_schema,
             cv.Optional(CONF_RESET_PIN): pins.gpio_output_pin_schema,
         }
