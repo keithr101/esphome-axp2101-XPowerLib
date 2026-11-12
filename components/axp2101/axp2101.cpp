@@ -41,6 +41,7 @@ static const char *TAG = "axp2101.sensor";
 void AXP2101Component::setup()
 {
     ESP_LOGCONFIG(TAG, "getID:0x%x", PMU.getChipID());
+    ESP_LOGCONFIG(TAG, "Model: %s", GetModelName());
 
     // Set the minimum common working voltage of the PMU VBUS input,
     // below this value will turn off the PMU
@@ -153,20 +154,28 @@ void AXP2101Component::setup()
 
         //ALDO1 IMAX=300mA
         //500~3500mV, 100mV/step,31steps
-        PMU.setALDO1Voltage(3300);
+        PMU.setALDO1Voltage(3300); //Camera
 
         //BLDO1 IMAX=300mA
         //500~3500mV, 100mV/step,31steps
-        PMU.setBLDO1Voltage(1500);
+        PMU.setBLDO1Voltage(1500); //Camera
 
         //BLDO2 IMAX=300mA
         //500~3500mV, 100mV/step,31steps
-        PMU.setBLDO2Voltage(2800);
+        PMU.setBLDO2Voltage(2800); //Camera
 
-        PMU.enableDC1();
-        PMU.enableALDO1(); //Camera 
+        PMU.enableDC1(); //3V3
+        PMU.disableDC2(); //NC
+        PMU.disableDC3(); //NC
+        PMU.disableDC4(); //NC
+        PMU.disableDC5(); //NC
+        PMU.enableALDO1(); //Camera
+        PMU.disableALDO2(); //NC
+        PMU.disableALDO3(); //NC
+        PMU.disableALDO4(); //NC
         PMU.enableBLDO1(); //Camera
         PMU.enableBLDO2(); //Camera
+        PMU.disableCPUSLDO(); //NC
     }
 
     ESP_LOGCONFIG(TAG, "DC1  : %s   Voltage:%u mV",  PMU.isEnableDC1()  ? "+" : "-", PMU.getDC1Voltage());
@@ -344,7 +353,7 @@ void AXP2101Component::dump_config() {
   LOG_BINARY_SENSOR("  ", "Battery Charging", this->batterycharging_bsensor_);
 }
 
-float AXP2101Component::get_setup_priority() const { return setup_priority::DATA; }
+float AXP2101Component::get_setup_priority() const { return setup_priority::HARDWARE + 1.0f; }
 
 void AXP2101Component::update() {
 
@@ -834,6 +843,16 @@ void AXP2101Component::PowerOff()
 void AXP2101Component::SetAdcState(bool state)
 {
     Write1Byte(0x82, state ? 0xff : 0x00);
+}
+
+char* AXP2101Component::GetModelName()
+{
+    switch(this->model) {
+        case AXP2101_M5CORE2:
+            return "AXP2101_M5CORE2";
+        case AXP2101_WSESP32S3TCHLCD_3_5_B: 
+            return "AXP2101_WSESP32S3TCHLCD_3_5_B";
+    }
 }
 
 std::string AXP2101Component::GetStartupReason() {
