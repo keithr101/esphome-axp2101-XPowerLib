@@ -43,7 +43,7 @@ AXP2101_MODEL = cv.enum(MODELS, upper=True, space="_")
 CONF_BATTERY_CHARGING = "battery_charging"
 
 def _validate_model(config: ConfigType) -> ConfigType:
-    if (config[CONF_MODEL] == "WSESP32S3TCHLCD_3_5_B") and config[CONF_BRIGHTNESS]:
+    if (config[CONF_MODEL] == AXP2101Model.AXP2101_WSESP32S3TCHLCD_3_5_B) and config[CONF_BRIGHTNESS]:
         raise cv.Invalid("brightness not supported by model WSESP32S3TCHLCD_3_5_B")
     return config
 
