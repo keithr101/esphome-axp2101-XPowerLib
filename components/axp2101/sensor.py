@@ -42,10 +42,10 @@ AXP2101_MODEL = cv.enum(MODELS, upper=True, space="_")
 
 CONF_BATTERY_CHARGING = "battery_charging"
 
-#def _validate_model(config: ConfigType) -> ConfigType:
-#    if (config[CONF_MODEL] == "WSESP32S3TCHLCD_3_5_B") and config[CONF_BRIGHTNESS]:
-#        raise cv.Invalid("brightness not supported by model WSESP32S3TCHLCD_3_5_B")
-#    return config
+def _validate_model(config: ConfigType) -> ConfigType:
+    if (config[CONF_MODEL] == "WSESP32S3TCHLCD_3_5_B") and config[CONF_BRIGHTNESS]:
+        raise cv.Invalid("brightness not supported by model WSESP32S3TCHLCD_3_5_B")
+    return config
 
 CONFIG_SCHEMA = (
     cv.Schema(
@@ -69,7 +69,8 @@ CONFIG_SCHEMA = (
         }
     )
     .extend(cv.polling_component_schema("60s"))
-    .extend(i2c.i2c_device_schema(0x77))
+    .extend(i2c.i2c_device_schema(0x77)),
+    _validated_Model(config)
 )
 
 
