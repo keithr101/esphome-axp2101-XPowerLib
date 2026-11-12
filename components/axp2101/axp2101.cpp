@@ -41,7 +41,7 @@ static const char *TAG = "axp2101.sensor";
 void AXP2101Component::setup()
 {
     ESP_LOGCONFIG(TAG, "getID:0x%x", PMU.getChipID());
-    ESP_LOGCONFIG(TAG, "Model: %s", GetModelName().to_cstr());
+    ESP_LOGCONFIG(TAG, "Model: %s", GetModelName());
 
     // Set the minimum common working voltage of the PMU VBUS input,
     // below this value will turn off the PMU
@@ -847,7 +847,7 @@ void AXP2101Component::SetAdcState(bool state)
     Write1Byte(0x82, state ? 0xff : 0x00);
 }
 
-String AXP2101Component::GetModelName()
+const char* AXP2101Component::GetModelName()
 {
     switch(this->model_) {
         case AXP2101_M5CORE2:
