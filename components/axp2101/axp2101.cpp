@@ -847,7 +847,7 @@ void AXP2101Component::SetAdcState(bool state)
     Write1Byte(0x82, state ? 0xff : 0x00);
 }
 
-string AXP2101Component::GetModelName()
+String AXP2101Component::GetModelName()
 {
     switch(this->model_) {
         case AXP2101_M5CORE2:
