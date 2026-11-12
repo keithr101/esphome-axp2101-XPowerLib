@@ -41,7 +41,7 @@ static const char *TAG = "axp2101.sensor";
 void AXP2101Component::setup()
 {
     ESP_LOGCONFIG(TAG, "getID:0x%x", PMU.getChipID());
-    ESP_LOGCONFIG(TAG, "Model: %s", GetModelName());
+    ESP_LOGCONFIG(TAG, "Model: %s", this->GetModelName());
 
     // Set the minimum common working voltage of the PMU VBUS input,
     // below this value will turn off the PMU
