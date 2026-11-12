@@ -126,7 +126,7 @@ protected:
     void SetAdcState(bool State);
 
     void PowerOff();
-    char*GetModelName();
+    string GetModelName();
 
     void Write1Byte( uint8_t Addr ,  uint8_t Data );
     uint8_t Read8bit( uint8_t Addr );

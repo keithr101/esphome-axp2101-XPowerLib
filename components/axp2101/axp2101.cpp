@@ -41,7 +41,7 @@ static const char *TAG = "axp2101.sensor";
 void AXP2101Component::setup()
 {
     ESP_LOGCONFIG(TAG, "getID:0x%x", PMU.getChipID());
-    ESP_LOGCONFIG(TAG, "Model: %s", GetModelName());
+    ESP_LOGCONFIG(TAG, "Model: %s", GetModelName().to_cstr());
 
     // Set the minimum common working voltage of the PMU VBUS input,
     // below this value will turn off the PMU
@@ -293,8 +293,10 @@ void AXP2101Component::setup()
         this->interrupt_pin->pin_mode(gpio::FLAG_INPUT);
         this->interrupt_pin->setup();
         this->attach_interrupt_(this->interrupt_pin, gpio::INTERRUPT_FALLING_EDGE);
+        ESP_LOGCONFIG(TAG, "Enabled Interrupt");
     }
     if (this->reset_pin != nullptr) {
+        ESP_LOGCONFIG(TAG, "Reset pin defined");
         //pulse_reset(this->reset_pin, {.low_ms = 5, .high_after_ms = 10});
         /*
         pulse_reset(this->reset_pin_, {
@@ -845,9 +847,9 @@ void AXP2101Component::SetAdcState(bool state)
     Write1Byte(0x82, state ? 0xff : 0x00);
 }
 
-char* AXP2101Component::GetModelName()
+string AXP2101Component::GetModelName()
 {
-    switch(this->model) {
+    switch(this->model_) {
         case AXP2101_M5CORE2:
             return "AXP2101_M5CORE2";
         case AXP2101_WSESP32S3TCHLCD_3_5_B: 
