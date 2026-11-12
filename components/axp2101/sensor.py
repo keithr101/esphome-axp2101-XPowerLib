@@ -26,8 +26,8 @@ AXP2101Component = axp2101_ns.class_(
 AXP2101Model = axp2101_ns.enum("AXP2101Model")
 
 MODELS = {
-    "M5CORE2": AXP2101Model.AXP2101_M5CORE2,
-    #"WSESP32S3TCHLCD_3_5_B": AXP2101Model.AXP2101_WSESP32S3TCHLCD_3_5_B,
+    "M5CORE2":                AXP2101Model.AXP2101_M5CORE2,
+    "WSESP32S3TCHLCD_3_5_B": AXP2101Model.AXP2101_WSESP32S3TCHLCD_3_5_B,
 }
 
 AXP2101_MODEL = cv.enum(MODELS, upper=True, space="_")
@@ -73,10 +73,10 @@ CONFIG_SCHEMA = (
 )
 
 
-def to_code(config):
+async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
-    yield cg.register_component(var, config)
-    yield i2c.register_i2c_device(var, config)
+    await cg.register_component(var, config)
+    await i2c.register_i2c_device(var, config)
 
     cg.add_library("XPowersLib", "^0.3.2", "https://github.com/lewisxhe/XPowersLib.git")
 
@@ -84,17 +84,17 @@ def to_code(config):
 
     if CONF_BATTERY_VOLTAGE in config:
         conf = config[CONF_BATTERY_VOLTAGE]
-        sens = yield sensor.new_sensor(conf)
+        sens = await sensor.new_sensor(conf)
         cg.add(var.set_batteryvoltage_sensor(sens))
 
     if CONF_BATTERY_LEVEL in config:
         conf = config[CONF_BATTERY_LEVEL]
-        sens = yield sensor.new_sensor(conf)
+        sens = await sensor.new_sensor(conf)
         cg.add(var.set_batterylevel_sensor(sens))
 
     if CONF_BATTERY_CHARGING in config:
         conf = config[CONF_BATTERY_CHARGING]
-        sens = yield binary_sensor.new_binary_sensor(conf)
+        sens = await binary_sensor.new_binary_sensor(conf)
         cg.add(var.set_batterycharging_bsensor(sens))
 
     if CONF_BRIGHTNESS in config:
